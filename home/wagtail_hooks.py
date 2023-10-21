@@ -2,7 +2,7 @@ from wagtail.snippets.views.snippets import SnippetViewSetGroup
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
 
-from .models import Place,Users
+from catalogo.models import Place,Users
 
 class PlaceMenu(SnippetViewSet):
     model = Place
