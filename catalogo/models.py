@@ -24,6 +24,7 @@ class Place(ClusterableModel):
         verbose_name_plural = "Edificios"
 
 class Users(ClusterableModel):
+
     OPTIONS_GENDER = (
         ("MAN","Hombre"),
         ("WOMAN","Mujer"),
@@ -112,3 +113,27 @@ class Users(ClusterableModel):
     class Meta:
         verbose_name = "Usuario"
         verbose_name_plural = "Usuarios"
+
+class JobRole(ClusterableModel):
+    name = models.CharField(
+        max_length=32,
+        default="",
+        verbose_name="Nombre",
+    )
+
+    desc = models.TextField(
+        max_length=512,
+        default="",
+        verbose_name="Descripcción del puesto de trabajo",
+    )
+    
+    filter_backends = [
+        FieldsFilter,
+        OrderingFilter
+    ]
+
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = "Frente de obra"
+        verbose_name_plural = "Listado de frentes de obra"

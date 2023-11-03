@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     #Proyect
     "catalogo",
     "Personal",
+    "gobierno",
     # "wagtail.contrib.modeladmin",
     'rest_framework',
 ]
