@@ -1,6 +1,51 @@
 from django.db import models
 from wagtail.api.v2.filters import OrderingFilter, FieldsFilter
 
+class General(models.Model):
+    electrical_buget = models.IntegerField(
+        blank=False,
+        default=0,
+        verbose_name = "Presupuesto de la instalación eléctrica",
+    )
+
+    water_budget = models.IntegerField(
+        blank=False,
+        default=0,
+        verbose_name="Presupuesto para instalación hidrica",
+    )
+
+    mobilary_budget = models.IntegerField(
+        blank=False,
+        default=0,
+        verbose_name="Presupuesto para inmobiliario",
+    )
+
+    floor_budget = models.IntegerField(
+        blank=False,
+        default=0,
+        verbose_name="Presupuesto para el suelo",
+    )
+
+    release_date = models.DateField(
+        blank=False,
+        verbose_name = "Fecha estimada de entrega",
+    )
+
+    registration_date = models.DateField(
+        blank=True,
+    )
+
+    filter_backends = [
+        FieldsFilter,
+        OrderingFilter
+    ]
+    
+    def __str__(self):
+        return "Versión del proyecto: "+self.registration_date
+    class Meta:
+        verbose_name = "Registo de presupuesto"
+        verbose_name_plural = "Listado de presupuestos"
+
 class Manager(models.Model):
     OPTIONS_ROL = (
         ("SUPERINTENDENT","Super-intendente"),

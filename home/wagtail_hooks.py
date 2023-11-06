@@ -1,9 +1,12 @@
+from wagtail import hooks
 from wagtail.snippets.views.snippets import SnippetViewSetGroup
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
 
+
 from catalogo.models import Place,Users,JobRole
 
+from gobierno.models import General as GobGeneral
 from gobierno.models import Manager as GobManager
 from gobierno.models import Overview as GobOverview
 from gobierno.models import Material as GobMaterial
@@ -26,6 +29,10 @@ class JobRoleMenu(SnippetViewSet):
 #        Gobierno       #
 #########################
 #Definiciones sobre el edificio de gobierno
+class GobGeneralMenu(SnippetViewSet):
+    model = GobGeneral
+    menu_label="Vistazo general"
+
 class GobManagerMenu(SnippetViewSet):
     model = GobManager
     menu_label = "Responsables"
@@ -50,6 +57,7 @@ class GobOverviewMenu(SnippetViewSet):
 class GobMenu(SnippetViewSetGroup):
     menu_label = "E. Gobierno"
     items = [
+        GobGeneralMenu,
         GobManagerMenu,
         GobMaterialMenu,
         GobBuildingMenu,
@@ -68,3 +76,11 @@ class CatalogoMenu(SnippetViewSetGroup):
 
 register_snippet(CatalogoMenu)
 register_snippet(GobMenu)
+
+@hooks.register('construct_main_menu')
+def hide_snippets_menu_item(request, menu_items):
+    # for menu in menu_items:
+    #     print(menu.name)
+    # print(menu_items)
+    menu_items[:] = [item for item in menu_items if item.name in ['images','documents','catalogo','censos','e-gobierno'] ]
+    # menu_items[:] = [item for item in menu_items if item.name in ['images','documents','catalogo','censos','settings'] ]
