@@ -15,7 +15,6 @@
 
     <div class="nice-padding w-mt-14">
         {% avatar_url user 70 as avatar %}
-
         {% if panels %}
             {% for panel in panels %}
                 {% component panel fallback_render_method=True %}

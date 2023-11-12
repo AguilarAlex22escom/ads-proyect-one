@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "gobierno",
     # "wagtail.contrib.modeladmin",
     'rest_framework',
+    'wagtail.api.v2',
 ]
 
 MIDDLEWARE = [
