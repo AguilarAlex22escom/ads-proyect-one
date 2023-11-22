@@ -113,7 +113,7 @@ class GeneralAPIViewSet(BaseAPIViewSet):
 
     filter_backends = [FieldsFilter, OrderingFilter]
 
-    name = "general"
+    name = "gobierno_general"
     model = General
 
 
@@ -180,7 +180,7 @@ class ManagerAPIViewSet(BaseAPIViewSet):
 
     filter_backends = [FieldsFilter, OrderingFilter]
 
-    name = "manager"
+    name = "gobierno_manager"
     model = Manager
 
 
@@ -255,7 +255,7 @@ class MaterialAPIViewSet(BaseAPIViewSet):
 
     filter_backends = [FieldsFilter, OrderingFilter]
 
-    name = "material"
+    name = "gobierno_material"
     model = Material
 
 
@@ -305,7 +305,7 @@ class BuildingAPIViewSet(BaseAPIViewSet):
 
     filter_backends = [FieldsFilter, OrderingFilter]
 
-    name = "building"
+    name = "gobierno_building"
     model = Building
 
 
@@ -349,7 +349,7 @@ class OverviewAPIViewSet(BaseAPIViewSet):
 
     filter_backends = [FieldsFilter, OrderingFilter]
 
-    name = "overview"
+    name = "gobierno_overview"
     model = Overview
 
 
@@ -383,5 +383,5 @@ class MetadataAPIViewSet(BaseAPIViewSet):
 
     filter_backends = [FieldsFilter, OrderingFilter]
 
-    name = "metadata"
+    name = "gobierno_metadata"
     model = Metadata

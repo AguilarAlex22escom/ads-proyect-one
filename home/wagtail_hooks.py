@@ -14,7 +14,7 @@ from gobierno.models import Manager as GobManager
 from gobierno.models import Overview as GobOverview
 from gobierno.models import Material as GobMaterial
 from gobierno.models import Building as GobBuilding
-
+from gobierno.models import Metadata as GobMetadata
 
 #########################
 #        Catalogo       #
@@ -52,7 +52,7 @@ class GobFileMenu(SnippetViewSet):
 
 class GobGeneralMenu(SnippetViewSet):
     model = GobGeneral
-    menu_label = "Presupuestos"
+    menu_label = "Catálogo de presupuestos"
 
 
 class GobManagerMenu(SnippetViewSet):
@@ -75,6 +75,10 @@ class GobOverviewMenu(SnippetViewSet):
     menu_label = "Notas"
 
 
+class GobMetadataMenu(SnippetViewSet):
+    model = GobMetadata
+    menu_label = "Metadata"
+
 #########################
 #         Menus         #
 #########################
@@ -88,6 +92,7 @@ class GobMenu(SnippetViewSetGroup):
         GobMaterialMenu,
         GobBuildingMenu,
         GobOverviewMenu,
+        GobMetadataMenu,
     ]
 
 

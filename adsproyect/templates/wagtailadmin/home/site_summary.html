@@ -1,15 +1,33 @@
+{% load i18n wagtailadmin_tags %}
+{% load static %}
+
+{% block extra_js %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="{% static "js/adsproyect.js" %}"></script>
+{% endblock %}
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    {% load i18n wagtailadmin_tags %}
-    {% load static %}
     <title>Bienvenida</title>
 </head>
+
 <body>
     <h1>Bienvenido a la plataforma de construcción de ESCOM</h1>
-        <h2>Progreso</h2>
-        <div class="progress-chart">
-            
-        </div>
+    <h2>Progreso</h2>
+    <div class="div_botones"></div>
+    <div id="progress_chart"></div>
+    <div id="material_chart"></div>
+    <table id="tabla_empleados">
+        <tr>
+            <td>Nombre</td>
+            <td>Categoría</td>
+        </tr>
+        <tr class="div_tabla_empleados">
+
+        </tr>
+    </table>
 </body>
+
 </html>

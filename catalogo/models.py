@@ -57,7 +57,7 @@ class StaffFile(models.Model):
     )
 
     def __str__(self):
-        return "Versión del proyecto: " +str(self.file)
+        return "Versión del proyecto: " + str(self.file)
 
     class Meta:
         verbose_name = "Archivo de empleados"
