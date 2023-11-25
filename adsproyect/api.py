@@ -8,6 +8,9 @@ from catalogo.models import UsersAPIViewSet as CatUsersAPI
 from gobierno.models import GeneralAPIViewSet as GobGeneralAPI
 from gobierno.models import ManagerAPIViewSet as GobManagerAPI
 from gobierno.models import MaterialAPIViewSet as GobMaterialAPI
+from gobierno.models import LadrilloAPIViewSet as GobLadrilloAPI
+from gobierno.models import MezclaAPIViewSet as GobMezclaAPI
+from gobierno.models import CableAPIViewSet as GobCableAPI
 from gobierno.models import BuildingAPIViewSet as GobBuildingAPI
 from gobierno.models import OverviewAPIViewSet as GobOverviewAPI
 from gobierno.models import MetadataAPIViewSet as GobMetadataAPI
@@ -27,6 +30,9 @@ api_router.register_endpoint("users", CatUsersAPI)
 api_router.register_endpoint("gobierno_general", GobGeneralAPI)
 api_router.register_endpoint("gobierno_manager", GobManagerAPI)
 api_router.register_endpoint("gobierno_material", GobMaterialAPI)
+api_router.register_endpoint("gobierno_ladrillo", GobLadrilloAPI)
+api_router.register_endpoint("gobierno_mezcla", GobMezclaAPI)
+api_router.register_endpoint("gobierno_cable", GobCableAPI)
 api_router.register_endpoint("gobierno_building", GobBuildingAPI)
 api_router.register_endpoint("gobierno_overview", GobOverviewAPI)
 api_router.register_endpoint("gobierno_metadata", GobMetadataAPI)

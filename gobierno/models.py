@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 from django.dispatch import receiver
 
 from rest_framework.renderers import JSONRenderer
@@ -194,6 +196,7 @@ class Material(models.Model):
         ("kg", "Kilogramos"),
         ("package", "Bultos/Costales"),
     )
+
     name = models.CharField(
         max_length=32,
         default="",
@@ -257,6 +260,149 @@ class MaterialAPIViewSet(BaseAPIViewSet):
 
     name = "gobierno_material"
     model = Material
+
+
+#########################
+# Clase: Materiales     #
+#########################
+class Ladrillo(models.Model):
+    name = models.CharField(
+        default="Ladrillo",
+        max_length=16,
+        editable=False,
+        unique=True,
+    )
+
+    quantity = models.IntegerField(
+        blank=False,
+        default=0,
+    )
+    
+    used = models.IntegerField(
+        blank=True,
+        default=0,
+    )
+
+    filter_backends = [FieldsFilter, OrderingFilter]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Ladrillo"
+        verbose_name_plural = "Listado de Ladrillos"
+
+
+class LadrilloAPIViewSet(BaseAPIViewSet):
+    body_fields = BaseAPIViewSet.body_fields + [
+        "name",
+        "quantity",
+        "used",
+    ]
+    listing_default_fields = BaseAPIViewSet.listing_default_fields + [
+        "name",
+        "quantity",
+        "used",
+    ]
+
+    filter_backends = [FieldsFilter, OrderingFilter]
+
+    name = "gobierno_ladrillo"
+    model = Ladrillo
+
+
+#########################
+class Mezcla(models.Model):
+    name = models.CharField(
+        default="Mezcla",
+        max_length=16,
+        editable=False,
+        unique=True,
+    )
+
+    quantity = models.IntegerField(
+        blank=False,
+        default=0,
+    )
+    
+    used = models.IntegerField(
+        blank=True,
+        default=0,
+    )
+
+    filter_backends = [FieldsFilter, OrderingFilter]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Mezcla"
+        verbose_name_plural = "Listado de mezcla"
+
+
+class MezclaAPIViewSet(BaseAPIViewSet):
+    body_fields = BaseAPIViewSet.body_fields + [
+        "name",
+        "quantity",
+        "used",
+    ]
+    listing_default_fields = BaseAPIViewSet.listing_default_fields + [
+        "name",
+        "quantity",
+        "used",
+    ]
+
+    filter_backends = [FieldsFilter, OrderingFilter]
+
+    name = "gobierno_mezcla"
+    model = Mezcla
+
+
+#########################
+class Cable(models.Model):
+    name = models.CharField(
+        default="Cable",
+        max_length=16,
+        editable=False,
+        unique=True,
+    )
+
+    quantity = models.IntegerField(
+        blank=False,
+        default=0,
+    )
+    
+    used = models.IntegerField(
+        blank=True,
+        default=0,
+    )
+
+    filter_backends = [FieldsFilter, OrderingFilter]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Cable"
+        verbose_name_plural = "Listado de cable"
+
+
+class CableAPIViewSet(BaseAPIViewSet):
+    body_fields = BaseAPIViewSet.body_fields + [
+        "name",
+        "quantity",
+        "used",
+    ]
+    listing_default_fields = BaseAPIViewSet.listing_default_fields + [
+        "name",
+        "quantity",
+        "used",
+    ]
+
+    filter_backends = [FieldsFilter, OrderingFilter]
+
+    name = "gobierno_cable"
+    model = Cable
 
 
 #########################
@@ -362,8 +508,22 @@ class Metadata(models.Model):
         blank=False,
     )
 
-    general_progress = models.IntegerField(
+    general_budget = models.IntegerField(
+        default=0,
         blank=True,
+    )
+
+    material_budget = models.IntegerField(
+        default=0,
+        blank=True,
+    )
+
+    general_progress = models.IntegerField(
+        blank=False,
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100),
+        ],
     )
 
     def __str__(self):
@@ -375,10 +535,17 @@ class Metadata(models.Model):
 
 
 class MetadataAPIViewSet(BaseAPIViewSet):
-    body_fields = BaseAPIViewSet.body_fields + ["name", "general_progress"]
+    body_fields = BaseAPIViewSet.body_fields + [
+        "name",
+        "general_progress",
+        "general_budget",
+        "material_budget",
+    ]
     listing_default_fields = BaseAPIViewSet.listing_default_fields + [
         "name",
         "general_progress",
+        "general_budget",
+        "material_budget",
     ]
 
     filter_backends = [FieldsFilter, OrderingFilter]

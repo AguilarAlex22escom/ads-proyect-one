@@ -13,6 +13,9 @@ from gobierno.models import General as GobGeneral
 from gobierno.models import Manager as GobManager
 from gobierno.models import Overview as GobOverview
 from gobierno.models import Material as GobMaterial
+from gobierno.models import Ladrillo as GobLadrillo
+from gobierno.models import Mezcla as GobMezcla
+from gobierno.models import Cable as GobCable
 from gobierno.models import Building as GobBuilding
 from gobierno.models import Metadata as GobMetadata
 
@@ -65,6 +68,21 @@ class GobMaterialMenu(SnippetViewSet):
     menu_label = "Materiales"
 
 
+class GobLadrilloMenu(SnippetViewSet):
+    model = GobLadrillo
+    menu_label = "Ladrillo"
+
+
+class GobMezclaMenu(SnippetViewSet):
+    model = GobMezcla
+    menu_label = "Mezcla"
+    
+    
+class GobCableMenu(SnippetViewSet):
+    model = GobCable
+    menu_label = "Cable"
+
+
 class GobBuildingMenu(SnippetViewSet):
     model = GobBuilding
     menu_label = "Construcción"
@@ -89,7 +107,10 @@ class GobMenu(SnippetViewSetGroup):
         GobFileMenu,
         GobGeneralMenu,
         GobManagerMenu,
-        GobMaterialMenu,
+        # GobMaterialMenu,
+        GobLadrilloMenu,
+        GobMezclaMenu,
+        GobCableMenu,
         GobBuildingMenu,
         GobOverviewMenu,
         GobMetadataMenu,

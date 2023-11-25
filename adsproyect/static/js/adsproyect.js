@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", (event) => {
+document.addEventListener("DOMContentLoaded", function() {
     Main();
 });
 
@@ -32,7 +32,15 @@ async function Main() {
     GraficoMateriales();
 }
 
-function GraficoDinero() {
+async function GraficoDinero() {
+    var datos = await ObtenerDatos("gobierno_metadata", undefined, undefined);
+
+    // console.log('datos: ', datos[0]);
+    // console.log('Progreso: ', datos[0]['general_progress']);
+    // console.log('Presupuesto humano: ', datos[0]['general_budget']);
+    // console.log('Presupuesto material: ', datos[0]['material_budget']);
+
+
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
@@ -41,8 +49,8 @@ function GraficoDinero() {
         data.addColumn('number', 'Porcentaje');
 
         data.addRows([
-            ['Material', 30],
-            ['Material', 50],
+            ['Mano de obra', datos[0]['general_budget']],
+            ['Material', datos[0]['material_budget']],
         ]);
 
         var options = {
@@ -55,24 +63,40 @@ function GraficoDinero() {
     }
 }
 
-function GraficoMateriales() {
+async function GraficoMateriales() {
+    var ladrillo = await ObtenerDatos("gobierno_ladrillo", undefined, undefined);
+    var mezcla = await ObtenerDatos("gobierno_mezcla", undefined, undefined);
+    var cable = await ObtenerDatos("gobierno_cable", undefined, undefined);
+
+    // console.log('ladrillo: ', ladrillo[0]['quantity']);
+    // console.log('mezcla: ', mezcla[0]['quantity']);
+    // console.log('cable: ', cable[0]['quantity']);
+
     google.charts.load('current', { 'packages': ['bar'] });
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
-            ['', 'Ladrillos', 'Mezcla', 'Cable'],
-            ['Gobierno', 1000, 400, 200],
-            ['ED1', 1170, 460, 250],
-            ['ED2', 660, 1120, 300],
-            ['ED3', 1030, 540, 350]
+            ['Gobierno', 'Restante', 'Usados'],
+            ['Ladrillos', ladrillo[0]['quantity'] - ladrillo[0]['used'], ladrillo[0]['used'],],
+            ['Mezcla', mezcla[0]['quantity'] - mezcla[0]['used'], mezcla[0]['used'],],
+            ['Cable', cable[0]['quantity'] - cable[0]['used'], cable[0]['used'],],
         ]);
+        // var data = google.visualization.arrayToDataTable([
+        //     ['', 'Ladrillos', 'Mezcla', 'Cable'],
+        //     ['Gobierno', ladrillo[0]['quantity'], mezcla[0]['quantity'], cable[0]['quantity']],
+        //     // ['ED1', 110, 60, 25],
+        //     // ['ED2', 60, 110, 30],
+        //     // ['ED3', 30, 54, 50],
+        // ]);
 
         var options = {
             chart: {
                 title: 'Uso de materiales',
                 subtitle: 'Tabla comparativa de materiales',
-            }
+            },
+            isStacked: true,
+            colors: ['#d95f02',]
         };
 
         var chart = new google.charts.Bar(document.getElementById('material_chart'));
@@ -85,7 +109,7 @@ function f1() {
     alert("Función pendiente");
 }
 
-function Agregar_Empleado(){
+function Agregar_Empleado() {
     var tabla_empleados = document.querySelector(".div_tabla_empleados");
     var elemento_nombre = document.createElement("td");
     var elemento_categoria = document.createElement("td");
@@ -93,4 +117,38 @@ function Agregar_Empleado(){
     elemento_categoria.innerText = "Sola";
     tabla_empleados.appendChild(elemento_nombre);
     tabla_empleados.appendChild(elemento_categoria);
+}
+
+async function ObtenerDatos(nombre_dato, tipo, param) {
+    //nombre_dato = nombre a búscar dentro de la url
+    //tipo = el nombre del parametro a búscar
+    //param = el valor del parametro que se quiera búscar
+    if (tipo === undefined) {
+        tipo = "";
+    } else {
+        tipo = "&" + tipo;
+    }
+    if (param === undefined) {
+        param = "";
+    } else {
+        param = "=" + param;
+    }
+    const url = "/api/v2/" + nombre_dato + "/?limit=999" + tipo + param;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            // throw new Error(`HTTP error! Status: ${response.status}`);
+            return response.ok;
+        } else {
+            const data = await response.json();
+
+            return data['items'];
+        }
+    } catch (error) {
+        var errorMessage = "Ha ocurrido el siguiente error: " + error;
+        var errorElement = document.createElement("div");
+        errorElement.className = "error-message";
+        errorElement.textContent = errorMessage;
+        document.body.appendChild(errorElement);
+    }
 }
