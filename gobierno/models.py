@@ -277,7 +277,7 @@ class Ladrillo(models.Model):
         blank=False,
         default=0,
     )
-    
+
     used = models.IntegerField(
         blank=True,
         default=0,
@@ -324,7 +324,7 @@ class Mezcla(models.Model):
         blank=False,
         default=0,
     )
-    
+
     used = models.IntegerField(
         blank=True,
         default=0,
@@ -371,7 +371,7 @@ class Cable(models.Model):
         blank=False,
         default=0,
     )
-    
+
     used = models.IntegerField(
         blank=True,
         default=0,
@@ -506,6 +506,7 @@ class Metadata(models.Model):
     name = models.CharField(
         max_length=32,
         blank=False,
+        unique=True,
     )
 
     general_budget = models.IntegerField(
@@ -519,6 +520,61 @@ class Metadata(models.Model):
     )
 
     general_progress = models.IntegerField(
+        default=0,
+        blank=False,
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100),
+        ],
+    )
+
+    cimentacion_progress = models.IntegerField(
+        default=0,
+        blank=False,
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100),
+        ],
+    )
+
+    aplanado_progress = models.IntegerField(
+        default=0,
+        blank=False,
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100),
+        ],
+    )
+
+    electrica_progress = models.IntegerField(
+        default=0,
+        blank=False,
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100),
+        ],
+    )
+
+    hidrica_progress = models.IntegerField(
+        default=0,
+        blank=False,
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100),
+        ],
+    )
+
+    detalles_progress = models.IntegerField(
+        default=0,
+        blank=False,
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100),
+        ],
+    )
+
+    mobiliario_progress = models.IntegerField(
+        default=0,
         blank=False,
         validators=[
             MinValueValidator(0),
@@ -540,12 +596,24 @@ class MetadataAPIViewSet(BaseAPIViewSet):
         "general_progress",
         "general_budget",
         "material_budget",
+        "cimentacion_progress",
+        "aplanado_progress",
+        "electrica_progress",
+        "hidrica_progress",
+        "detalles_progress",
+        "mobiliario_progress",
     ]
     listing_default_fields = BaseAPIViewSet.listing_default_fields + [
         "name",
         "general_progress",
         "general_budget",
         "material_budget",
+        "cimentacion_progress",
+        "aplanado_progress",
+        "electrica_progress",
+        "hidrica_progress",
+        "detalles_progress",
+        "mobiliario_progress",
     ]
 
     filter_backends = [FieldsFilter, OrderingFilter]

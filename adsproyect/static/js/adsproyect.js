@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     Main();
 });
 
@@ -23,13 +23,14 @@ async function Main() {
 
 
     // Nuevo elemento en tabla empleados
-    btn_agregar_empleado.innerText = "Agregar empleado";
-    btn_agregar_empleado.onclick = Agregar_Empleado;
-    div.appendChild(btn_agregar_empleado);
+    // btn_agregar_empleado.innerText = "Agregar empleado";
+    // btn_agregar_empleado.onclick = Agregar_Empleado;
+    // div.appendChild(btn_agregar_empleado);
 
 
     GraficoDinero();
     GraficoMateriales();
+    GraficoAvance();
 }
 
 async function GraficoDinero() {
@@ -58,7 +59,7 @@ async function GraficoDinero() {
             legend: 'none',
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('progress_chart'));
+        var chart = new google.visualization.PieChart(document.getElementById('presupuesto_chart'));
         chart.draw(data, options);
     }
 }
@@ -96,12 +97,50 @@ async function GraficoMateriales() {
                 subtitle: 'Tabla comparativa de materiales',
             },
             isStacked: true,
-            colors: ['#d95f02',]
+            // colors: ['#d95f02',]
         };
 
         var chart = new google.charts.Bar(document.getElementById('material_chart'));
 
-        chart.draw(data, google.charts.Bar.convertOptions(options));
+        chart.draw(data, options);
+    }
+}
+
+async function GraficoAvance() {
+    var datos = await ObtenerDatos("gobierno_metadata", undefined, undefined);
+    console.log('datos: ', datos[0]);
+    console.log('aplanado_progress: ', datos[0]['aplanado_progress']);
+    console.log('cimentacion_progress: ', datos[0]['cimentacion_progress']);
+    console.log('detalles_progress: ', datos[0]['detalles_progress']);
+    console.log('electrica_progress: ', datos[0]['electrica_progress']);
+    console.log('hidrica_progress: ', datos[0]['hidrica_progress']);
+    console.log('mobiliario_progress: ', datos[0]['mobiliario_progress']);
+    console.log('general: ', (datos[0]['aplanado_progress'] + datos[0]['cimentacion_progress'] + datos[0]['detalles_progress'] + datos[0]['electrica_progress'] + datos[0]['hidrica_progress'] + datos[0]['mobiliario_progress'])/6);
+
+
+    google.charts.load('current', { 'packages': ['bar'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Genre', 'Aplanado', 'Cimentación','Detalles','Electrica','Hidrica','Mobiliario', 'Restante'],
+            
+            ['Gobierno', datos[0]['aplanado_progress']/6, datos[0]['cimentacion_progress']/6, datos[0]['detalles_progress']/6, datos[0]['electrica_progress']/6, datos[0]['hidrica_progress']/6, datos[0]['mobiliario_progress']/6, 100-((datos[0]['aplanado_progress'] + datos[0]['cimentacion_progress'] + datos[0]['detalles_progress'] + datos[0]['electrica_progress'] + datos[0]['hidrica_progress'] + datos[0]['mobiliario_progress'])/6)],
+        ]);
+
+        var options_fullStacked = {
+            isStacked: 'percent',
+            height: 300,
+            legend: { position: 'top', maxLines: 3 },
+            hAxis: {
+                minValue: 0,
+                ticks: [0, .5, 1]
+            }
+        };
+
+
+        var chart = new google.visualization.BarChart(document.getElementById("progreso_chart"));
+        chart.draw(data, options_fullStacked);
     }
 }
 
